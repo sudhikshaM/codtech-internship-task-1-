@@ -1,0 +1,41 @@
+TASK 3: AI CHATBOT WITH NLP
+SCRIPT:
+pip install nltk
+import nltk
+nltk.download(‘punkt’)
+import nltk
+from nltk.chat.util import Chat, reflections
+# Define pairs of patterns and responses
+pairs = [
+ [
+ r"my name is (.*)",
+ ["Hello %1, How are you today?",]
+ ],
+ [
+ r"what is your name ?",
+ ["I am a chatbot created using NLTK",]
+ ],
+ [
+ r"how are you ?",
+ ["I'm doing well, thank you!",]
+ ],
+ [
+ r"sorry (.*)",
+ ["It's alright", "No problem",]
+ ],
+ [
+ r"I am (.*) (good|well|okay|ok)",
+ ["Nice to hear that", "Alright, great to know!",]
+ ],
+ [
+ r"quit",
+ ["Bye, take care! Have a great day ahead.",]
+ ],
+]
+def chatbot():
+ print("Hi, I'm your chatbot! Type 'quit' to exit.")
+ chat = Chat(pairs, reflections)
+ chat.converse()
+if _name_ == "_main_":
+ chatbot()
+OUTPUT:
