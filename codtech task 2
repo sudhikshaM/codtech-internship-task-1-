@@ -1,0 +1,59 @@
+TASK 2: AUTOMATED REPORT GENERATION
+SCRIPT:
+import pandas as pd
+import matplotlib.pyplot as plt
+from fpdf import FPDF
+sample_data = {
+ "A": [1, 5, 9, 13, 17],
+ "B": [2, 6, 10, 14, 18],
+ "C": [3, 7, 11, 15, 19],
+ "D": [4, 8, 12, 16, 20]
+}
+file_path = "data.csv"
+pd.DataFrame(sample_data).to_csv(file_path, index=False)
+data = pd.read_csv(file_path)
+summary = data.describe()
+plt.figure(figsize=(10, 6))
+plt.plot(data["A"], label='A')
+plt.plot(data["B"], label='B')
+plt.plot(data["C"], label='C')
+plt.plot(data["D"], label='D')
+plt.xlabel("Index")
+plt.ylabel("Values")
+plt.title("Sample Data Plot")
+plt.legend()
+plt.grid(True)
+plt.savefig("plot.png")
+plt.close()
+class PDF(FPDF):
+ def header(self):
+ self.set_font('Arial', 'B', 12)
+ self.cell(0, 10, 'Data Analysis Report', 0, 1, 'C')
+ def footer(self):self.set_y(-15)
+ self.set_font('Arial', 'I', 8 )
+ self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+ def chapter_title(self, title):
+ self.set_font('Arial', 'B',
+self.set_y(-15)
+ self.set_font('Arial', 'I', 8)
+ self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+ def chapter_title(self, title):
+ self.set_font('Arial', 'B', 12)
+ self.cell(0, 10, title, 0, 1, 'L')
+ self.ln(10)
+ def chapter_body(self, body):
+ self.set_font('Arial', '', 12)
+ self.multi_cell(0, 10, body)
+ self.ln()
+ def add_image(self, image_path, x=10, y=65, w=180):
+ self.image(image_path, x, y, w)
+ pdf = PDF()
+ pdf.add_page()
+ pdf.chapter_title('Summary ')
+ for column in summary.columns:
+ pdf.chapter_body(f'{column}\n{summary[column]}')
+ pdf.add_image("plot.png")
+ pdf.output("data_analysis_report_visual.pdf")
+ print("Visual PDF report generated successfully!"):
+OUTPUT
+  visual pdf report generated successfully
