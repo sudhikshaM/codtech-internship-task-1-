@@ -1,0 +1,51 @@
+SCRIPT:
+Import requests
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+from datetime import datetime
+# Replace with your own API key
+api_key = "08c66d573d96cfd782ae0f08232f0ca6"
+city_name = "Coimbatore"
+url = 
+f"http://api.openweathermap.org/data/2.5/forecast?q={city_name}&appid={api_key}&units=
+metric"
+response = requests.get(url)
+if response.status_code == 200:
+ data = response.json()
+ print(data) # Print the raw response data for inspection
+else:
+ print("Error fetching data from OpenWeatherMap:", response.status_code)
+ data = None
+if data:
+ # Extract relevant data
+ date_list = []
+ temp_list = []
+ humidity_list = []
+for item in data.get('list', []): # Use .get to avoid KeyError
+ date_list.append(datetime.fromtimestamp(item['dt']))
+ temp_list.append(item['main']['temp'])
+ humidity_list.append(item['main']['humidity'])
+ # Create a DataFrame
+ weather_data
+# Plotting with Matplotlib
+ plt.figure(figsize=(12, 6))
+ plt.plot(weather_data["Date"], weather_data["Temperature"], label='Temperature (°C)')
+ plt.plot(weather_data["Date"], weather_data["Humidity"], label='Humidity (%)')
+ plt.xlabel("Date")
+ plt.ylabel("Value")
+ plt.title(f"Weather Forecast for {city_name}")
+ plt.legend()
+ plt.grid(True)
+ plt.show()
+ # Plotting with Seaborn
+ sns.set(style="whitegrid")
+ fig, ax = plt.subplots(figsize=(12, 6))
+ sns.lineplot(x="Date", y="Temperature", data=weather_data, label='Temperature (°C)', 
+ax=ax)
+ sns.lineplot(x="Date", y="Humidity", data=weather_data, label='Humidity (%)', ax=ax)
+ ax.set(title=f"Weather Forecast for {city_name}", xlabel='Date',
+ ylabel='Value')
+ plt.legend()
+ plt.show()
+OUTPUT:
